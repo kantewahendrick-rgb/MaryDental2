@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Mary Dental Practice | Windhoek</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+
+/* ══════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════ */
+:root{
+  --ice:#EBF5FB;
+  --ice2:#D6EEF8;
+  --ice3:#C2E4F2;
+  --sky:#5BB8D4;
+  --sky2:#3EA6C4;
+  --sky3:#2090B0;
+  --navy:#0A1F35;
+  --navy2:#0D2847;
+  --white:#FFFFFF;
+  --off:#F7FBFD;
+  --text:#0D1B2A;
+  --muted:#5A7080;
+  --glass:rgba(255,255,255,0.55);
+  --glass2:rgba(255,255,255,0.75);
+  --glassb:rgba(91,184,212,0.15);
+  --shadow:0 8px 40px rgba(10,31,53,0.10);
+  --shadow2:0 20px 60px rgba(10,31,53,0.14);
+  --T:.4s cubic-bezier(.4,0,.2,1);
+  --T2:.6s cubic-bezier(.22,1,.36,1);
+}
+
+/* ══════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--white);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:default;
+}
+a{text-decoration:none;color:inherit;}
+
+/* ══════════════════════════════════════
+   ANIMATED MESH BACKGROUND
+══════════════════════════════════════ */
+.mesh-bg{
+  position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse 800px 600px at 10% 20%, rgba(91,184,212,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 90% 80%, rgba(194,228,242,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 50% 50%, rgba(235,245,251,0.3) 0%, transparent 70%),
+    var(--white);
+  animation:meshMove 18s ease-in-out infinite alternate;
+}
+@keyframes meshMove{
+  0%{background-position:0% 0%,100% 100%,50% 50%;}
+  100%{background-position:5% 8%,95% 92%,52% 48%;}
+}
+
+/* ══════════════════════════════════════
+   TRANSPARENT TOOTH WATERMARK
+══════════════════════════════════════ */
+.tooth-watermark{
+  position:fixed;
+  right:-8vw;top:50%;
+  transform:translateY(-50%);
+  z-index:-1;
+  width:55vw;max-width:700px;
+  opacity:0.04;
+  pointer-events:none;
+  animation:toothFloat 12s ease-in-out infinite alternate;
+}
+@keyframes toothFloat{
+  0%{transform:translateY(-50%) rotate(-3deg) scale(1);}
+  100%{transform:translateY(-52%) rotate(2deg) scale(1.03);}
+}
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity var(--T2),transform var(--T2);}
+.reveal.vis{opacity:1;transform:none;}
+.reveal-l{opacity:0;transform:translateX(-40px);transition:opacity var(--T2),transform var(--T2);}
+.reveal-l.vis{opacity:1;transform:none;}
+.reveal-r{opacity:0;transform:translateX(40px);transition:opacity var(--T2),transform var(--T2);}
+.reveal-r.vis{opacity:1;transform:none;}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
+.d4{transition-delay:.32s;}.d5{transition-delay:.4s;}.d6{transition-delay:.48s;}
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:72px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(91,184,212,0.18);
+  transition:box-shadow var(--T),background var(--T);
+}
+#nav.scrolled{
+  background:rgba(255,255,255,0.95);
+  box-shadow:0 4px 32px rgba(10,31,53,0.10);
+}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;}
+.nav-emblem{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--sky3),var(--sky));
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;
+  box-shadow:0 4px 16px rgba(32,144,176,0.35);
+}
+.nav-wordmark{line-height:1.1;}
+.nav-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--navy);letter-spacing:-.01em;}
+.nav-sub{font-size:.5rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--sky3);margin-top:2px;}
+.nav-links{display:flex;align-items:center;gap:.05rem;list-style:none;}
+.nav-links a{
+  display:block;padding:.38rem .82rem;
+  font-size:.7rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);border-radius:4px;cursor:pointer;
+  transition:all var(--T);
+}
+.nav-links a:hover{color:var(--navy);background:rgba(91,184,212,0.1);}
+.nav-pill{
+  background:linear-gradient(135deg,var(--sky3),var(--sky2));
+  color:#fff!important;
+  border-radius:50px!important;
+  padding:.5rem 1.4rem!important;
+  font-weight:600!important;
+  box-shadow:0 4px 16px rgba(32,144,176,0.3);
+  transition:all var(--T)!important;
+}
+.nav-pill:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(32,144,176,0.4)!important;background:var(--sky2)!important;}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;border:none;background:none;padding:4px;}
+.ham span{display:block;width:22px;height:2px;background:var(--navy);border-radius:2px;transition:all .3s;}
+@media(max-width:900px){.nav-links{display:none;}.ham{display:flex;}}
+.mob-nav{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(255,255,255,0.97);backdrop-filter:blur(30px);
+  flex-direction:column;padding:6rem 8% 3rem;
+}
+.mob-nav.open{display:flex;}
+.mob-nav a{
+  font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;
+  color:var(--navy);padding:.7rem 0;
+  border-bottom:1px solid rgba(91,184,212,0.15);
+  cursor:pointer;transition:color var(--T);
+}
+.mob-nav a:hover{color:var(--sky3);}
+.mob-x{position:absolute;top:1.2rem;right:8%;font-size:1.4rem;cursor:pointer;background:none;border:none;color:var(--navy);}
+
+/* ══════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════ */
+.btn-sky{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--sky3) 0%,var(--sky2) 100%);
+  color:#fff;border:none;border-radius:50px;
+  padding:.88rem 2.2rem;
+  font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+  box-shadow:0 8px 28px rgba(32,144,176,0.38);
+  transition:all var(--T);
+}
+.btn-sky:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(32,144,176,0.48);}
+.btn-glass{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.6);
+  color:var(--navy);border:1.5px solid rgba(91,184,212,0.4);
+  border-radius:50px;padding:.88rem 2.2rem;
+  font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+  backdrop-filter:blur(8px);
+  transition:all var(--T);
+}
+.btn-glass:hover{background:rgba(255,255,255,0.9);border-color:var(--sky2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(91,184,212,0.2);}
+.btn-outline-white{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:#fff;
+  border:1.5px solid rgba(255,255,255,0.5);
+  border-radius:50px;padding:.88rem 2.2rem;
+  font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+  transition:all var(--T);
+}
+.btn-outline-white:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.85);}
+
+/* ══════════════════════════════════════
+   SECTION UTILITIES
+══════════════════════════════════════ */
+.container{max-width:1200px;margin:0 auto;padding:0 5%;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.6rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--sky3);margin-bottom:.9rem;
+}
+.eyebrow::before{content:'';width:22px;height:1.5px;background:var(--sky3);}
+h2.stitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4vw,3.2rem);
+  font-weight:700;color:var(--navy);
+  line-height:1.1;letter-spacing:-.025em;
+}
+h2.stitle em{font-style:italic;color:var(--sky3);}
+h2.stitle.lt{color:#fff;}h2.stitle.lt em{color:var(--ice2);}
+.sbody{font-size:.92rem;font-weight:300;color:var(--muted);line-height:1.95;max-width:520px;margin-top:.85rem;}
+.sbody.lt{color:rgba(255,255,255,0.65);}
+.rule{width:40px;height:2px;background:linear-gradient(90deg,var(--sky3),var(--sky));margin:1.2rem 0;}
+
+/* ══════════════════════════════════════
+   GLASS CARD
+══════════════════════════════════════ */
+.glass-card{
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.85);
+  border-radius:16px;
+  box-shadow:0 4px 32px rgba(10,31,53,0.07),inset 0 1px 0 rgba(255,255,255,0.9);
+  transition:transform var(--T),box-shadow var(--T);
+}
+.glass-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(10,31,53,0.12),inset 0 1px 0 rgba(255,255,255,0.9);}
+
+/* ══════════════════════════════════════
+   1. HERO
+══════════════════════════════════════ */
+#hero{
+  position:relative;
+  width:100%;min-height:100vh;
+  display:flex;align-items:center;
+  padding:120px 5% 80px;
+  overflow:hidden;
+}
+.hero-image-right{
+  position:absolute;right:0;top:0;bottom:0;
+  width:52%;z-index:0;
+}
+.hero-image-right::before{
+  content:'';position:absolute;
+  top:0;left:0;bottom:0;width:200px;z-index:1;
+  background:linear-gradient(90deg,var(--white),transparent);
+}
+.hero-image-right img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.hero-image-right::after{
+  content:'';position:absolute;inset:0;z-index:0;
+  background:linear-gradient(to left,rgba(235,245,251,0.2),rgba(255,255,255,0));
+}
+/* Floating geometric shapes */
+.hero-shape-1{
+  position:absolute;top:15%;right:48%;z-index:1;
+  width:220px;height:220px;
+  background:radial-gradient(circle,rgba(91,184,212,0.12) 0%,transparent 70%);
+  border-radius:50%;
+  animation:floatA 8s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+.hero-shape-2{
+  position:absolute;bottom:20%;right:52%;z-index:1;
+  width:140px;height:140px;
+  background:radial-gradient(circle,rgba(194,228,242,0.2) 0%,transparent 70%);
+  border-radius:50%;
+  animation:floatB 10s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes floatA{from{transform:translate(0,0) scale(1);}to{transform:translate(15px,-20px) scale(1.1);}}
+@keyframes floatB{from{transform:translate(0,0);}to{transform:translate(-10px,15px);}}
+.hero-content{position:relative;z-index:2;max-width:600px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(91,184,212,0.1);
+  border:1px solid rgba(91,184,212,0.25);
+  border-radius:50px;padding:.4rem 1rem;
+  font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sky3);margin-bottom:1.8rem;
+  backdrop-filter:blur(8px);
+  opacity:0;animation:fUp .8s .1s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-badge::before{content:'';width:8px;height:8px;background:var(--sky3);border-radius:50%;animation:blink 2s ease infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,6vw,5.8rem);
+  font-weight:700;color:var(--navy);
+  line-height:1.0;letter-spacing:-.03em;
+  margin-bottom:1.4rem;
+  opacity:0;animation:fUp .8s .25s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-h1 em{font-style:italic;color:var(--sky3);}
+.hero-h1 .block{display:block;}
+.hero-sub{
+  font-size:1rem;font-weight:300;color:var(--muted);
+  line-height:1.9;max-width:460px;margin-bottom:2.6rem;
+  opacity:0;animation:fUp .8s .4s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-btns{
+  display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3.5rem;
+  opacity:0;animation:fUp .8s .55s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-stats{
+  display:flex;gap:2.5rem;flex-wrap:wrap;
+  padding-top:2rem;border-top:1px solid rgba(91,184,212,0.2);
+  opacity:0;animation:fUp .8s .7s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hstat{display:flex;flex-direction:column;gap:.2rem;}
+.hstat-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--navy);line-height:1;}
+.hstat-l{font-size:.58rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+@keyframes fUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* ══════════════════════════════════════
+   2. TRUST STRIP
+══════════════════════════════════════ */
+.trust-strip{
+  background:linear-gradient(135deg,var(--sky3) 0%,var(--sky2) 100%);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+@media(max-width:640px){.trust-strip{grid-template-columns:repeat(2,1fr);}}
+.ts-item{
+  padding:1.6rem 1.2rem;text-align:center;
+  border-right:1px solid rgba(255,255,255,0.15);
+  transition:background var(--T);position:relative;
+}
+.ts-item:last-child{border-right:none;}
+.ts-item:hover{background:rgba(255,255,255,0.08);}
+.ts-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;line-height:1;}
+.ts-l{font-size:.55rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-top:.2rem;}
+
+/* ══════════════════════════════════════
+   3. ABOUT / EXPERIENCE SPLIT
+══════════════════════════════════════ */
+#about{
+  padding:120px 5%;
+  position:relative;overflow:hidden;
+}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center;max-width:1200px;margin:0 auto;}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:3rem;}}
+.about-img-stack{position:relative;height:560px;}
+.about-img-main{
+  position:absolute;top:0;left:0;right:10%;bottom:10%;
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 24px 70px rgba(10,31,53,0.15);
+}
+.about-img-main img{width:100%;height:100%;object-fit:cover;}
+.about-img-accent{
+  position:absolute;bottom:0;right:0;
+  width:55%;height:52%;
+  border-radius:16px;overflow:hidden;
+  border:5px solid var(--white);
+  box-shadow:0 12px 40px rgba(10,31,53,0.14);
+}
+.about-img-accent img{width:100%;height:100%;object-fit:cover;}
+/* Floating glass stat badge */
+.about-badge{
+  position:absolute;top:2.5rem;right:0;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.9);
+  border-radius:12px;padding:1.1rem 1.4rem;
+  box-shadow:0 8px 32px rgba(10,31,53,0.12);
+  text-align:center;
+}
+.ab-n{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--sky3);line-height:1;}
+.ab-l{font-size:.54rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.about-pts{list-style:none;margin-top:1.6rem;display:flex;flex-direction:column;gap:1rem;}
+.apoint{display:flex;align-items:flex-start;gap:.9rem;}
+.apoint-dot{
+  width:24px;height:24px;
+  background:linear-gradient(135deg,var(--sky3),var(--sky));
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.52rem;color:#fff;flex-shrink:0;margin-top:2px;
+  box-shadow:0 4px 12px rgba(32,144,176,0.3);
+}
+.apoint-body strong{display:block;font-size:.86rem;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.apoint-body p{font-size:.8rem;font-weight:300;color:var(--muted);line-height:1.65;}
+
+/* ══════════════════════════════════════
+   4. TEAM
+══════════════════════════════════════ */
+#team{
+  padding:120px 5%;
+  background:linear-gradient(180deg,rgba(235,245,251,0.8) 0%,rgba(255,255,255,1) 100%);
+  position:relative;
+}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;max-width:1200px;margin:0 auto;}
+@media(max-width:900px){.team-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto;}}
+.team-card{
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.9);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 4px 32px rgba(10,31,53,0.07);
+  transition:transform var(--T),box-shadow var(--T);
+}
+.team-card:hover{transform:translateY(-6px);box-shadow:0 20px 56px rgba(10,31,53,0.13);}
+.team-photo{height:260px;overflow:hidden;position:relative;}
+.team-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .7s ease;}
+.team-card:hover .team-photo img{transform:scale(1.05);}
+.team-photo-ph{
+  height:100%;
+  background:linear-gradient(135deg,var(--ice) 0%,var(--ice3) 100%);
+  display:flex;align-items:center;justify-content:center;font-size:4rem;
+}
+/* Sky shimmer bar on top of photo */
+.team-photo-bar{
+  position:absolute;bottom:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--sky3),var(--sky));
+}
+.team-info{padding:1.6rem 1.5rem;}
+.team-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--navy);}
+.team-role{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--sky3);margin:.3rem 0 .8rem;
+}
+.team-bio{font-size:.78rem;font-weight:300;color:var(--muted);line-height:1.8;}
+.team-tag{
+  display:inline-flex;align-items:center;gap:5px;margin-top:1rem;
+  background:rgba(91,184,212,0.08);
+  border:1px solid rgba(91,184,212,0.2);
+  border-radius:50px;padding:.28rem .78rem;
+  font-size:.62rem;font-weight:600;color:var(--sky3);
+}
+
+/* ══════════════════════════════════════
+   5. SERVICES — IMAGE CARDS
+══════════════════════════════════════ */
+#services{padding:120px 5%;position:relative;overflow:hidden;}
+/* Background circle ornament */
+#services::before{
+  content:'';position:absolute;
+  top:-200px;right:-200px;
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(91,184,212,0.07) 0%,transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1200px;margin:0 auto;}
+@media(max-width:900px){.srv-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.srv-grid{grid-template-columns:1fr;}}
+.srv-card{
+  position:relative;border-radius:16px;
+  overflow:hidden;height:340px;cursor:pointer;
+  box-shadow:0 4px 24px rgba(10,31,53,0.08);
+  transition:transform var(--T),box-shadow var(--T);
+}
+.srv-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 20px 56px rgba(10,31,53,0.16);}
+.srv-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:transform .65s cubic-bezier(.4,0,.2,1),filter .65s;
+}
+.srv-card:hover .srv-bg{transform:scale(1.08);filter:brightness(1.08);}
+.srv-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,31,53,0.82) 0%,rgba(10,31,53,0.2) 55%,transparent 100%);
+}
+/* Glass top bar */
+.srv-top{
+  position:absolute;top:1rem;left:1rem;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:8px;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;
+  transition:all var(--T);
+}
+.srv-card:hover .srv-top{background:rgba(91,184,212,0.7);border-color:rgba(91,184,212,0.8);}
+.srv-body{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.8rem 1.6rem;z-index:2;
+}
+.srv-card h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
+.srv-desc{
+  font-size:.78rem;font-weight:300;color:rgba(255,255,255,0.7);
+  line-height:1.65;max-height:0;overflow:hidden;
+  transition:max-height .45s ease,opacity .45s;opacity:0;margin-top:0;
+}
+.srv-card:hover .srv-desc{max-height:80px;opacity:1;margin-top:.4rem;}
+.srv-lnk{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:.7rem;font-size:.65rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(91,184,212,0.9);
+  transition:gap var(--T),color var(--T);
+}
+.srv-card:hover .srv-lnk{gap:9px;color:var(--ice);}
+.bg-1{background-image:url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&q=85');}
+.bg-2{background-image:url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=800&q=85');}
+.bg-3{background-image:url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=85');}
+.bg-4{background-image:url('https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=800&q=85');}
+.bg-5{background-image:url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=800&q=85');}
+.bg-6{background-image:url('https://images.unsplash.com/photo-1598256989014-f26428b445dd?w=800&q=85');}
+
+/* ══════════════════════════════════════
+   6. PARALLAX QUOTE
+══════════════════════════════════════ */
+#parallax{
+  position:relative;height:500px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+}
+.par-bg{
+  position:absolute;inset:-80px;z-index:0;
+  background:url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=1800&q=85') center/cover no-repeat;
+  background-attachment:fixed;
+}
+.par-ov{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(rgba(10,31,53,0.78),rgba(10,31,53,0.72));
+}
+/* Glass quote box */
+.par-box{
+  position:relative;z-index:2;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:20px;
+  padding:4rem 5rem;
+  max-width:780px;
+  margin:0 5%;
+}
+@media(max-width:700px){.par-box{padding:3rem 2rem;}}
+.par-line{width:44px;height:2px;background:var(--sky);margin:0 auto 1.8rem;}
+.par-box h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.025em;margin-bottom:1rem;}
+.par-box h2 em{font-style:italic;color:var(--ice2);}
+.par-box p{font-size:.94rem;font-weight:300;color:rgba(255,255,255,0.58);margin-bottom:2rem;line-height:1.85;}
+
+/* ══════════════════════════════════════
+   7. BEFORE / AFTER
+══════════════════════════════════════ */
+#results{
+  padding:120px 5%;
+  background:var(--off);
+  position:relative;
+}
+.ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:900px;margin:0 auto;}
+@media(max-width:680px){.ba-wrap{grid-template-columns:1fr;max-width:420px;}}
+.ba-card{
+  background:var(--white);border-radius:16px;overflow:hidden;
+  box-shadow:0 4px 28px rgba(10,31,53,0.08);
+  transition:transform var(--T),box-shadow var(--T);
+}
+.ba-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(10,31,53,0.14);}
+.ba-img{height:280px;position:relative;overflow:hidden;}
+.ba-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+.ba-card:hover .ba-img img{transform:scale(1.04);}
+.ba-tag{
+  position:absolute;top:1rem;left:1rem;
+  padding:.28rem .8rem;border-radius:50px;
+  font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+}
+.ba-tag.before{background:rgba(10,31,53,0.75);color:#fff;backdrop-filter:blur(8px);}
+.ba-tag.after{background:linear-gradient(135deg,var(--sky3),var(--sky));color:#fff;}
+.ba-body{padding:1.4rem;}
+.ba-body h4{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;}
+.ba-body p{font-size:.78rem;font-weight:300;color:var(--muted);line-height:1.65;}
+.ba-note{text-align:center;font-size:.78rem;font-weight:300;color:var(--muted);margin-top:2rem;font-style:italic;}
+
+/* ══════════════════════════════════════
+   8. TESTIMONIALS
+══════════════════════════════════════ */
+#testimonials{
+  position:relative;padding:120px 5%;overflow:hidden;
+}
+.tst-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1800&q=85') center/cover no-repeat;
+  filter:blur(4px);transform:scale(1.06);
+}
+.tst-ov{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(rgba(10,31,53,0.87),rgba(10,31,53,0.82));
+}
+.tst-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;}
+.tst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;}
+@media(max-width:900px){.tst-grid{grid-template-columns:1fr;max-width:460px;margin:3.5rem auto 0;}}
+.tst-card{
+  background:rgba(255,255,255,0.07);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:16px;padding:2rem;
+  transition:all var(--T);
+}
+.tst-card:hover{background:rgba(255,255,255,0.12);border-color:rgba(91,184,212,0.3);transform:translateY(-4px);}
+.tst-q{font-family:'Cormorant Garamond',serif;font-size:3rem;line-height:.4;color:var(--sky);opacity:0.45;margin-bottom:.85rem;}
+.tst-stars{color:#F0C850;font-size:.82rem;letter-spacing:2px;margin-bottom:.9rem;}
+.tst-text{font-size:.87rem;font-weight:300;color:rgba(255,255,255,0.8);line-height:1.85;font-style:italic;margin-bottom:1.4rem;}
+.tst-author{display:flex;align-items:center;gap:.75rem;}
+.tst-av{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sky3),var(--sky));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.tst-name{font-size:.82rem;font-weight:600;color:#fff;}
+.tst-tag{font-size:.62rem;color:rgba(255,255,255,0.45);}
+
+/* ══════════════════════════════════════
+   9. FINAL CTA
+══════════════════════════════════════ */
+#cta{
+  padding:130px 5%;
+  background:linear-gradient(135deg,var(--sky3) 0%,var(--sky2) 40%,var(--navy) 100%);
+  text-align:center;position:relative;overflow:hidden;
+}
+#cta::before{
+  content:'';position:absolute;
+  top:-250px;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 65%);
+  pointer-events:none;
+}
+/* Transparent tooth in CTA */
+.cta-tooth{
+  position:absolute;
+  right:-5%;top:50%;transform:translateY(-50%);
+  width:380px;opacity:0.06;pointer-events:none;
+}
+.cta-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.6rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,0.65);margin-bottom:1.4rem;
+}
+.cta-eyebrow::before,.cta-eyebrow::after{content:'';width:22px;height:1px;background:rgba(255,255,255,0.4);}
+#cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5.5vw,4.5rem);font-weight:700;color:#fff;line-height:1.06;letter-spacing:-.028em;margin-bottom:1rem;}
+#cta h2 em{font-style:italic;opacity:.85;}
+#cta p{font-size:.95rem;font-weight:300;color:rgba(255,255,255,0.6);max-width:480px;margin:0 auto 2.8rem;line-height:1.85;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.cta-main{
+  background:rgba(255,255,255,0.95);color:var(--sky3);border:none;border-radius:50px;
+  padding:1rem 2.6rem;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;cursor:pointer;
+  box-shadow:0 8px 28px rgba(0,0,0,0.2);transition:all var(--T);
+  display:inline-flex;align-items:center;gap:9px;
+}
+.cta-main:hover{background:#fff;transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,0.28);}
+
+/* ══════════════════════════════════════
+   10. FOOTER
+══════════════════════════════════════ */
+footer{
+  background:var(--navy);
+  padding:72px 5% 28px;
+  border-top:1px solid rgba(91,184,212,0.12);
+}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto 3rem;}
+@media(max-width:800px){.foot-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.foot-grid{grid-template-columns:1fr;}}
+.foot-brand p{font-size:.8rem;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.85;margin-top:.9rem;max-width:260px;}
+.foot-socs{display:flex;gap:.5rem;margin-top:1.3rem;}
+.foot-soc{
+  width:34px;height:34px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:.78rem;color:rgba(255,255,255,0.45);
+  transition:all var(--T);cursor:pointer;
+}
+.foot-soc:hover{background:var(--sky3);color:#fff;border-color:var(--sky3);}
+.foot-col h5{font-size:.55rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:1.1rem;}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.foot-col a{font-size:.8rem;font-weight:300;color:rgba(255,255,255,0.45);cursor:pointer;transition:color var(--T);}
+.foot-col a:hover{color:var(--sky);}
+.foot-bot{border-top:1px solid rgba(255,255,255,0.06);padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;max-width:1200px;margin:0 auto;}
+.foot-copy{font-size:.64rem;color:rgba(255,255,255,0.2);}
+
+/* ══════════════════════════════════════
+   FLOATING WA BUTTON
+══════════════════════════════════════ */
+.wa-float{
+  position:fixed;bottom:2rem;right:2rem;z-index:400;
+  width:58px;height:58px;border-radius:50%;
+  background:#25D366;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;
+  box-shadow:0 6px 28px rgba(37,211,102,0.5);
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+  text-decoration:none;
+}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 10px 36px rgba(37,211,102,0.6);}
+.wa-float::before{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:2px solid rgba(37,211,102,0.35);
+  animation:wap 2.5s ease infinite;
+}
+@keyframes wap{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0;transform:scale(1.55)}}
+
+/* ══════════════════════════════════════
+   BOOKING MODAL
+══════════════════════════════════════ */
+.modal-wrap{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(10,31,53,0.7);
+  backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.modal-wrap.open{display:flex;}
+.modal{
+  background:var(--white);
+  border-radius:20px;
+  width:100%;max-width:500px;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(10,31,53,0.3);
+  animation:mIn .35s cubic-bezier(.22,1,.36,1);
+}
+@keyframes mIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.modal-hd{
+  background:linear-gradient(135deg,var(--sky3),var(--sky2));
+  padding:1.8rem 2rem;display:flex;justify-content:space-between;align-items:flex-start;
+}
+.modal-hd h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;}
+.modal-hd p{font-size:.7rem;color:rgba(255,255,255,0.6);margin-top:3px;}
+.modal-hd-x{background:none;border:none;color:rgba(255,255,255,0.65);font-size:1.3rem;cursor:pointer;transition:color var(--T);}
+.modal-hd-x:hover{color:#fff;}
+.modal-bd{padding:1.8rem 2rem;}
+.mfg{margin-bottom:.9rem;}
+.mfl{display:block;font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;}
+.mfi,.mfs{
+  width:100%;background:var(--off);
+  border:1.5px solid rgba(91,184,212,0.2);border-radius:8px;
+  font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--text);
+  padding:.7rem 1rem;transition:border-color var(--T),background var(--T);-webkit-appearance:none;
+}
+.mfi:focus,.mfs:focus{outline:none;border-color:var(--sky2);background:#fff;box-shadow:0 0 0 3px rgba(91,184,212,0.1);}
+.mfi::placeholder{color:#b0bac4;}
+.mf-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+@media(max-width:480px){.mf-row{grid-template-columns:1fr;}}
+.mf-sub{
+  width:100%;padding:.9rem;margin-top:.3rem;
+  background:linear-gradient(135deg,var(--sky3),var(--sky2));
+  color:#fff;border:none;border-radius:8px;
+  font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:600;
+  letter-spacing:.07em;text-transform:uppercase;cursor:pointer;
+  box-shadow:0 5px 18px rgba(32,144,176,0.35);transition:all var(--T);
+}
+.mf-sub:hover{transform:translateY(-1px);box-shadow:0 9px 28px rgba(32,144,176,0.45);}
+.mf-note{font-size:.62rem;color:var(--muted);text-align:center;margin-top:.6rem;}
+.mf-confirm{text-align:center;padding:1.5rem 1rem;}
+.mfc-ico{width:64px;height:64px;background:rgba(91,184,212,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1rem;}
+.mfc-t{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;}
+.mfc-b{font-size:.84rem;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:1.3rem;}
+.mfc-det{background:var(--off);border-radius:8px;padding:.9rem 1.1rem;text-align:left;margin-bottom:1.2rem;}
+.mcd{display:flex;justify-content:space-between;font-size:.78rem;padding:.27rem 0;border-bottom:1px solid rgba(91,184,212,0.1);}
+.mcd:last-child{border:none;}
+.mcd-l{color:var(--muted);font-weight:300;}
+.mcd-v{color:var(--navy);font-weight:600;}
+
+
+/* ── TAB ENGINE ─────────────────────────── */
+.page{
+  display:none;
+  min-height:calc(100vh - 72px);
+  overflow-x:hidden;
+}
+.page.active{
+  display:block;
+  animation:pgIn .42s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes pgIn{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+/* Nav active state */
+.nav-links a.cur{color:var(--navy)!important;background:rgba(91,184,212,0.12)!important;}
+/* Tooth watermark per page */
+.tooth-watermark{position:fixed;right:-8vw;top:50%;transform:translateY(-50%);z-index:-1;width:55vw;max-width:700px;opacity:.035;pointer-events:none;animation:toothFloat 12s ease-in-out infinite alternate;color:var(--sky);}
+
+</style>
+</head>
+<body>
+
+<div class="mesh-bg"></div>
+<svg class="tooth-watermark" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M100 10 C60 10, 20 35, 20 75 C20 95, 28 112, 30 130 C35 165, 40 200, 55 220 C62 230, 72 232, 80 225 C88 218, 90 200, 100 200 C110 200, 112 218, 120 225 C128 232, 138 230, 145 220 C160 200, 165 165, 170 130 C172 112, 180 95, 180 75 C180 35, 140 10, 100 10Z" stroke="currentColor" stroke-width="3" fill="none" opacity="1"/>
+  <path d="M70 75 C70 75, 80 65, 100 65 C120 65, 130 75, 130 75" stroke="currentColor" stroke-width="2" fill="none" opacity="0.6"/>
+  <circle cx="75" cy="50" r="8" stroke="currentColor" stroke-width="2" fill="none" opacity="0.5"/>
+  <circle cx="125" cy="50" r="8" stroke="currentColor" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M60 90 C60 90, 100 115, 140 90" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.4"/>
+</svg>
+<a href="https://wa.me/264816507508?text=Hello%20Mary%20Dental%2C%20I%20want%20to%20book" target="_blank" class="wa-float">&#128172;</a>
+<!-- BOOKING MODAL -->
+<div class="modal-wrap" id="modal">
+  <div class="modal">
+    <div class="modal-hd">
+      <div><h3>Book Appointment</h3><p>Mary Dental Practice &mdash; Windhoek</p></div>
+      <button class="modal-hd-x" onclick="closeM()">&#10005;</button>
+    </div>
+    <div class="modal-bd" id="mBd">
+      <div id="mFrm">
+        <div class="mf-row">
+          <div class="mfg"><label class="mfl">First Name *</label><input class="mfi" id="m1" placeholder="First name"/></div>
+          <div class="mfg"><label class="mfl">Last Name *</label><input class="mfi" id="m2" placeholder="Last name"/></div>
+        </div>
+        <div class="mfg"><label class="mfl">Phone Number *</label><input class="mfi" id="m3" type="tel" placeholder="+264 81 XXX XXXX"/></div>
+        <div class="mfg"><label class="mfl">Service *</label>
+          <select class="mfs" id="m4">
+            <option value="">Select a service</option>
+            <option>General Check-up &amp; Cleaning</option>
+            <option>Cosmetic Dentistry</option>
+            <option>Restorative Dentistry</option>
+            <option>Root Canal Treatment</option>
+            <option>Emergency Dental Care</option>
+            <option>Teeth Whitening</option>
+            <option>Not sure &ndash; need consultation</option>
+          </select>
+        </div>
+        <div class="mfg"><label class="mfl">Preferred Date *</label><input class="mfi" id="m5" type="date"/></div>
+        <button class="mf-sub" onclick="subM()">Confirm Appointment &rarr;</button>
+        <p class="mf-note">We will call to confirm within 1 business day.</p>
+      </div>
+      <div id="mConf" style="display:none">
+        <div class="mf-confirm">
+          <div class="mfc-ico">&#9989;</div>
+          <div class="mfc-t">Request Received!</div>
+          <p class="mfc-b">Thank you, <strong id="mc1"></strong>. We will call you on <strong id="mc2"></strong> to confirm your appointment.</p>
+          <div class="mfc-det">
+            <div class="mcd"><span class="mcd-l">Service</span><span class="mcd-v" id="mc3"></span></div>
+            <div class="mcd"><span class="mcd-l">Date</span><span class="mcd-v" id="mc4"></span></div>
+            <div class="mcd"><span class="mcd-l">Location</span><span class="mcd-v">Erf 623 Zambezi St, Wanaheda</span></div>
+          </div>
+          <button class="mf-sub" onclick="resetM()">Book Another Appointment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-logo" onclick="go('home')">
+    <div class="nav-emblem">&#129463;</div>
+    <div class="nav-wordmark">
+      <div class="nav-name">Mary Dental</div>
+      <div class="nav-sub">Windhoek &bull; Namibia</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="go('home')"         id="nl-home"         class="cur">Home</a></li>
+    <li><a onclick="go('about')"        id="nl-about"              >About</a></li>
+    <li><a onclick="go('team')"         id="nl-team"               >Our Team</a></li>
+    <li><a onclick="go('services')"     id="nl-services"           >Services</a></li>
+    <li><a onclick="go('results')"      id="nl-results"            >Results</a></li>
+    <li><a onclick="go('testimonials')" id="nl-testimonials"       >Reviews</a></li>
+    <li><a onclick="go('contact')"      id="nl-contact"            >Contact</a></li>
+    <li><a href="#" class="nav-pill" onclick="openM();return false">Book Now</a></li>
+  </ul>
+  <button class="ham" onclick="openMob()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <button class="mob-x" onclick="closeMob()">&#10005;</button>
+  <a onclick="go('home');closeMob()">Home</a>
+  <a onclick="go('about');closeMob()">About</a>
+  <a onclick="go('team');closeMob()">Our Team</a>
+  <a onclick="go('services');closeMob()">Services</a>
+  <a onclick="go('results');closeMob()">Results</a>
+  <a onclick="go('testimonials');closeMob()">Reviews</a>
+  <a onclick="go('contact');closeMob()">Contact</a>
+  <a onclick="openM();closeMob();return false" style="color:var(--sky3)!important;margin-top:.5rem">&#128197; Book Appointment</a>
+</div>
+
+<!-- ══ PAGE: HOME ══ -->
+<div class="page active" id="page-home">
+  <div style="padding-top:72px">
+    <section id="hero">
+  <div class="hero-shape-1"></div>
+  <div class="hero-shape-2"></div>
+  <div class="hero-image-right">
+    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=90" alt="Modern dental practice" loading="eager"/>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">&#127973; Wanaheda, Windhoek &mdash; Namibia</div>
+    <h1 class="hero-h1">
+      <span class="block">Premium</span>
+      <span class="block">Dental <em>Care.</em></span>
+      <span class="block">Confident Smiles.</span>
+    </h1>
+    <p class="hero-sub">Gentle, modern dentistry designed around your comfort. Trusted by Windhoek families for exceptional, personalised oral care.</p>
+    <div class="hero-btns">
+      <button class="btn-sky" onclick="openM()">&#128197; Book Appointment</button>
+      <a href="https://wa.me/264816507508" target="_blank" class="btn-glass">&#128172; WhatsApp Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">5&#9733;</div><div class="hstat-l">Patient Rating</div></div>
+      <div class="hstat"><div class="hstat-n">All Ages</div><div class="hstat-l">Family Friendly</div></div>
+      <div class="hstat"><div class="hstat-n">Same Day</div><div class="hstat-l">Emergency Care</div></div>
+    </div>
+  </div>
+</section>
+    <div class="trust-strip">
+  <div class="ts-item"><div class="ts-n">5&#9733;</div><div class="ts-l">Patient Rated</div></div>
+  <div class="ts-item"><div class="ts-n">All Ages</div><div class="ts-l">Family Friendly</div></div>
+  <div class="ts-item"><div class="ts-n">Same Day</div><div class="ts-l">Emergency Care</div></div>
+  <div class="ts-item"><div class="ts-n">Windhoek</div><div class="ts-l">Wanaheda</div></div>
+</div>
+
+
+  </div>
+  <footer >
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="nav-emblem">&#129463;</div>
+        <div class="nav-wordmark"><div class="nav-name" style="color:#fff">Mary Dental</div><div class="nav-sub">Windhoek Practice</div></div>
+      </div>
+      <p>Comfortable, convenient and personalised dental care in Wanaheda, Windhoek. General, cosmetic, restorative and emergency dentistry for all ages.</p>
+      <div class="foot-socs">
+        <a href="https://instagram.com/marydentalpractice" target="_blank" class="foot-soc">&#128247;</a>
+        <a href="https://wa.me/264816507508" target="_blank" class="foot-soc">&#128172;</a>
+        <a href="tel:+264816507508" class="foot-soc">&#128222;</a>
+        <a href="/cdn-cgi/l/email-protection#f59894878c91909b819499868180919c9ab59298949c99db969a98" class="foot-soc">&#9993;</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">General Dentistry</a></li>
+        <li><a href="#services">Cosmetic Dentistry</a></li>
+        <li><a href="#services">Restorative Dentistry</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+264816507508">+264 81 650 7508</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#4d202c3f34292823392c213e39382924220d2a202c2421632e2220"><span class="__cf_email__" data-cfemail="3855594a415c5d564c59544b4c4d5c5157785f55595154165b5755">[email&#160;protected]</span></a></li>
+        <li><a href="https://instagram.com/marydentalpractice" target="_blank">@marydentalpractice</a></li>
+        <li><a>Erf 623 Zambezi Street</a></li>
+        <li><a>Wanaheda, Windhoek</a></li>
+        <li><a>Mon&ndash;Fri: 08:00&ndash;17:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">&copy; 2025 Mary Dental Practice. All Rights Reserved. Wanaheda, Windhoek, Namibia.</div>
+    <div class="foot-copy">Comfortable &bull; Convenient &bull; Personalised &#129463;</div>
+  </div>
+</footer>
+</div>
+
+<!-- ══ PAGE: ABOUT ══ -->
+<div class="page" id="page-about">
+  <div style="padding-top:72px">
+    <section id="about">
+  <div class="about-grid">
+    <div class="about-img-stack reveal-l">
+      <div class="about-img-main">
+        <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=900&q=85" alt="Dental clinic" loading="lazy"/>
+      </div>
+      <div class="about-img-accent">
+        <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&q=80" alt="Modern clinic interior" loading="lazy"/>
+      </div>
+      <div class="about-badge glass-card">
+        <div class="ab-n">WHK</div>
+        <div class="ab-l">Practice</div>
+      </div>
+    </div>
+    <div class="reveal-r">
+      <div class="eyebrow">Our Approach</div>
+      <h2 class="stitle">A Better Dental<br/><em>Experience</em></h2>
+      <div class="rule"></div>
+      <p class="sbody">We combine <strong style="color:var(--navy);font-weight:500">advanced technique</strong> with a genuinely human touch &mdash; creating an environment where every patient feels calm, heard and cared for from the very first visit.</p>
+      <ul class="about-pts">
+        <li class="apoint"><div class="apoint-dot">&#10003;</div><div class="apoint-body"><strong>Comfortable from arrival</strong><p>A warm, relaxed space designed to ease anxiety and put you at ease.</p></div></li>
+        <li class="apoint"><div class="apoint-dot">&#10003;</div><div class="apoint-body"><strong>Personalised treatment plans</strong><p>Every plan is individually designed around your specific needs and goals.</p></div></li>
+        <li class="apoint"><div class="apoint-dot">&#10003;</div><div class="apoint-body"><strong>Modern technology</strong><p>Current equipment for precise, efficient and minimally invasive treatment.</p></div></li>
+        <li class="apoint"><div class="apoint-dot">&#10003;</div><div class="apoint-body"><strong>Clear communication always</strong><p>We explain everything so you always know exactly what to expect.</p></div></li>
+      </ul>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem">
+        <button class="btn-sky" onclick="openM()">Book a Consultation</button>
+        <a href="#services" class="btn-glass">Our Services &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+  </div>
+  <footer >
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="nav-emblem">&#129463;</div>
+        <div class="nav-wordmark"><div class="nav-name" style="color:#fff">Mary Dental</div><div class="nav-sub">Windhoek Practice</div></div>
+      </div>
+      <p>Comfortable, convenient and personalised dental care in Wanaheda, Windhoek. General, cosmetic, restorative and emergency dentistry for all ages.</p>
+      <div class="foot-socs">
+        <a href="https://instagram.com/marydentalpractice" target="_blank" class="foot-soc">&#128247;</a>
+        <a href="https://wa.me/264816507508" target="_blank" class="foot-soc">&#128172;</a>
+        <a href="tel:+264816507508" class="foot-soc">&#128222;</a>
+        <a href="/cdn-cgi/l/email-protection#7e131f0c071a1b100a1f120d0a0b1a17113e19131f1712501d1113" class="foot-soc">&#9993;</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">General Dentistry</a></li>
+        <li><a href="#services">Cosmetic Dentistry</a></li>
+        <li><a href="#services">Restorative Dentistry</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+264816507508">+264 81 650 7508</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#adc0ccdfd4c9c8c3d9ccc1ded9d8c9c4c2edcac0ccc4c183cec2c0"><span class="__cf_email__" data-cfemail="6f020e1d160b0a011b0e031c1b1a0b06002f08020e0603410c0002">[email&#160;protected]</span></a></li>
+        <li><a href="https://instagram.com/marydentalpractice" target="_blank">@marydentalpractice</a></li>
+        <li><a>Erf 623 Zambezi Street</a></li>
+        <li><a>Wanaheda, Windhoek</a></li>
+        <li><a>Mon&ndash;Fri: 08:00&ndash;17:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">&copy; 2025 Mary Dental Practice. All Rights Reserved. Wanaheda, Windhoek, Namibia.</div>
+    <div class="foot-copy">Comfortable &bull; Convenient &bull; Personalised &#129463;</div>
+  </div>
+</footer>
+</div>
+
+<!-- ══ PAGE: TEAM ══ -->
+<div class="page" id="page-team">
+  <div style="padding-top:72px">
+    <section id="team">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px" class="reveal">
+      <div class="eyebrow" style="justify-content:center">The People Behind Your Smile</div>
+      <h2 class="stitle">Meet Our <em>Team</em></h2>
+      <p class="sbody" style="margin:0 auto;text-align:center">Experienced, caring professionals dedicated to your comfort and confidence at every visit.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal d1">
+        <div class="team-photo">
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&q=80" alt="Dr Mary" loading="lazy"/>
+          <div class="team-photo-bar"></div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Dr Mary</div>
+          <div class="team-role">B.Ch.D &middot; Principal Dentist &amp; Founder</div>
+          <p class="team-bio">The founder of Mary Dental Practice, Dr Mary built the practice on one simple belief: dental care should be comfortable, convenient and personal. With a Bachelor of Dental Surgery and a deep passion for her community, she established the Wanaheda practice to bring expert, compassionate dentistry to Windhoek families. Known for her gentle chair-side manner and meticulous clinical technique, Dr Mary has built a loyal following of patients who trust her completely. She is committed to making quality dental care accessible and comfortable for every Namibian.</p>
+          <div class="team-tag">&#129463; Principal Dentist &amp; Founder</div>
+        </div>
+      </div>
+      <div class="team-card reveal d2">
+        <div class="team-photo">
+          <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80" alt="Dr Hendrick" loading="lazy"/>
+          <div class="team-photo-bar"></div>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Dr Hendrick</div>
+          <div class="team-role">B.Ch.D &middot; Associate Dentist</div>
+          <p class="team-bio">Dr Hendrick joined Mary Dental Practice bringing fresh expertise and a specialisation in cosmetic and restorative dentistry. With post-graduate training in aesthetic dentistry and digital smile design, he excels in veneers, composite bonding and orthodontic treatment. Known for his natural rapport with patients and families, Dr Hendrick combines cutting-edge clinical technique with the warm, unhurried approach the practice is loved for. Patients consistently praise his thoroughness and ability to explain procedures in plain, reassuring language.</p>
+          <div class="team-tag">&#10024; Cosmetic &amp; Restorative</div>
+        </div>
+      </div>
+      <div class="team-card reveal d3">
+        <div class="team-photo"><div class="team-photo-ph">&#129309;</div><div class="team-photo-bar"></div></div>
+        <div class="team-info">
+          <div class="team-name">Support Team</div>
+          <div class="team-role">Nurses &middot; Assistants &middot; Reception</div>
+          <p class="team-bio">Our clinical and administrative team is the true heart of the practice. From the moment you call to book to the moment you leave, our dental nurses, chair-side assistants and front-desk staff ensure your visit is smooth, caring and professional. They handle appointments, medical aid queries and emergency scheduling with warmth and efficiency every single day, ensuring every patient feels genuinely welcomed at Mary Dental Practice.</p>
+          <div class="team-tag">&#129309; Your Support Network</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  </div>
+  <footer >
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="nav-emblem">&#129463;</div>
+        <div class="nav-wordmark"><div class="nav-name" style="color:#fff">Mary Dental</div><div class="nav-sub">Windhoek Practice</div></div>
+      </div>
+      <p>Comfortable, convenient and personalised dental care in Wanaheda, Windhoek. General, cosmetic, restorative and emergency dentistry for all ages.</p>
+      <div class="foot-socs">
+        <a href="https://instagram.com/marydentalpractice" target="_blank" class="foot-soc">&#128247;</a>
+        <a href="https://wa.me/264816507508" target="_blank" class="foot-soc">&#128172;</a>
+        <a href="tel:+264816507508" class="foot-soc">&#128222;</a>
+        <a href="/cdn-cgi/l/email-protection#d6bbb7a4afb2b3b8a2b7baa5a2a3b2bfb996b1bbb7bfbaf8b5b9bb" class="foot-soc">&#9993;</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">General Dentistry</a></li>
+        <li><a href="#services">Cosmetic Dentistry</a></li>
+        <li><a href="#services">Restorative Dentistry</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+264816507508">+264 81 650 7508</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#1b767a69627f7e756f7a77686f6e7f72745b7c767a727735787476"><span class="__cf_email__" data-cfemail="9af7fbe8e3fefff4eefbf6e9eeeffef3f5dafdf7fbf3f6b4f9f5f7">[email&#160;protected]</span></a></li>
+        <li><a href="https://instagram.com/marydentalpractice" target="_blank">@marydentalpractice</a></li>
+        <li><a>Erf 623 Zambezi Street</a></li>
+        <li><a>Wanaheda, Windhoek</a></li>
+        <li><a>Mon&ndash;Fri: 08:00&ndash;17:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">&copy; 2025 Mary Dental Practice. All Rights Reserved. Wanaheda, Windhoek, Namibia.</div>
+    <div class="foot-copy">Comfortable &bull; Convenient &bull; Personalised &#129463;</div>
+  </div>
+</footer>
+</div>
+
+<!-- ══ PAGE: SERVICES ══ -->
+<div class="page" id="page-services">
+  <div style="padding-top:72px">
+    <section id="services">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px" class="reveal">
+      <div class="eyebrow" style="justify-content:center">What We Offer</div>
+      <h2 class="stitle">Our <em>Services</em></h2>
+      <p class="sbody" style="margin:0 auto;text-align:center">Comprehensive dental care for every stage of life. Hover a card to explore each service.</p>
+    </div>
+  </div>
+  <div class="srv-grid container">
+    <div class="srv-card reveal d1">
+      <div class="srv-bg bg-1"></div><div class="srv-ov"></div>
+      <div class="srv-top">&#129463;</div>
+      <div class="srv-body">
+        <h3>General Dentistry</h3>
+        <p class="srv-desc">Check-ups, fillings, extractions, scale &amp; polish. Complete oral health for every age.</p>
+        <div class="srv-lnk" onclick="openM()">Book Now &rarr;</div>
+      </div>
+    </div>
+    <div class="srv-card reveal d2">
+      <div class="srv-bg bg-2"></div><div class="srv-ov"></div>
+      <div class="srv-top">&#10024;</div>
+      <div class="srv-body">
+        <h3>Cosmetic Dentistry</h3>
+        <p class="srv-desc">Veneers, whitening, composite bonding and complete smile makeovers.</p>
+        <div class="srv-lnk" onclick="openM()">Book Now &rarr;</div>
+      </div>
+    </div>
+    <div class="srv-card reveal d3">
+      <div class="srv-bg bg-3"></div><div class="srv-ov"></div>
+      <div class="srv-top">&#128295;</div>
+      <div class="srv-body">
+        <h3>Restorative Dentistry</h3>
+        <p class="srv-desc">Crowns, bridges, dentures and implants restoring full function and natural appearance.</p>
+        <div class="srv-lnk" onclick="openM()">Book Now &rarr;</div>
+      </div>
+    </div>
+    <div class="srv-card reveal d4">
+      <div class="srv-bg bg-4"></div><div class="srv-ov"></div>
+      <div class="srv-top">&#128300;</div>
+      <div class="srv-body">
+        <h3>Root Canal Treatment</h3>
+        <p class="srv-desc">Modern, comfortable endodontic care saving infected teeth and eliminating pain.</p>
+        <div class="srv-lnk" onclick="openM()">Book Now &rarr;</div>
+      </div>
+    </div>
+    <div class="srv-card reveal d5">
+      <div class="srv-bg bg-5"></div><div class="srv-ov"></div>
+      <div class="srv-top">&#128680;</div>
+      <div class="srv-body">
+        <h3>Emergency Dentistry</h3>
+        <p class="srv-desc">Same-day urgent care for toothache, trauma and abscesses. Always prioritised.</p>
+        <div class="srv-lnk" onclick="openM()">Emergency Line &rarr;</div>
+      </div>
+    </div>
+    <div class="srv-card reveal d6">
+      <div class="srv-bg bg-6"></div><div class="srv-ov"></div>
+      <div class="srv-top">&#127774;</div>
+      <div class="srv-body">
+        <h3>Teeth Whitening</h3>
+        <p class="srv-desc">Professional in-chair whitening for fast, dramatic, long-lasting results.</p>
+        <div class="srv-lnk" onclick="openM()">Book Now &rarr;</div>
+      </div>
+    </div>
+  </div>
+</section>
+    <section id="parallax">
+  <div class="par-bg"></div>
+  <div class="par-ov"></div>
+  <div class="par-box reveal">
+    <div class="par-line"></div>
+    <h2>&ldquo;Your smile is your<br/><em>best investment.&rdquo;</em></h2>
+    <p>We are here to protect it, restore it and perfect it &mdash; for life.</p>
+    <button class="btn-sky" onclick="openM()">&#128197; Start Your Journey</button>
+  </div>
+</section>
+  </div>
+  <footer >
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="nav-emblem">&#129463;</div>
+        <div class="nav-wordmark"><div class="nav-name" style="color:#fff">Mary Dental</div><div class="nav-sub">Windhoek Practice</div></div>
+      </div>
+      <p>Comfortable, convenient and personalised dental care in Wanaheda, Windhoek. General, cosmetic, restorative and emergency dentistry for all ages.</p>
+      <div class="foot-socs">
+        <a href="https://instagram.com/marydentalpractice" target="_blank" class="foot-soc">&#128247;</a>
+        <a href="https://wa.me/264816507508" target="_blank" class="foot-soc">&#128172;</a>
+        <a href="tel:+264816507508" class="foot-soc">&#128222;</a>
+        <a href="/cdn-cgi/l/email-protection#2d404c5f54494843594c415e59584944426d4a404c4441034e4240" class="foot-soc">&#9993;</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">General Dentistry</a></li>
+        <li><a href="#services">Cosmetic Dentistry</a></li>
+        <li><a href="#services">Restorative Dentistry</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+264816507508">+264 81 650 7508</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#0964687b706d6c677d68657a7d7c6d6066496e64686065276a6664"><span class="__cf_email__" data-cfemail="fa979b88839e9f948e9b96898e8f9e9395ba9d979b9396d4999597">[email&#160;protected]</span></a></li>
+        <li><a href="https://instagram.com/marydentalpractice" target="_blank">@marydentalpractice</a></li>
+        <li><a>Erf 623 Zambezi Street</a></li>
+        <li><a>Wanaheda, Windhoek</a></li>
+        <li><a>Mon&ndash;Fri: 08:00&ndash;17:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">&copy; 2025 Mary Dental Practice. All Rights Reserved. Wanaheda, Windhoek, Namibia.</div>
+    <div class="foot-copy">Comfortable &bull; Convenient &bull; Personalised &#129463;</div>
+  </div>
+</footer>
+</div>
+
+<!-- ══ PAGE: RESULTS ══ -->
+<div class="page" id="page-results">
+  <div style="padding-top:72px">
+    <section id="results">
+  <div class="container">
+    <div class="res-header reveal" style="text-align:center;margin-bottom:56px">
+      <div class="eyebrow" style="justify-content:center">Real Results</div>
+      <h2 class="stitle">Patient <em>Transformations</em></h2>
+      <p class="sbody" style="margin:0 auto;text-align:center">Results speak louder than words. Let our patients&rsquo; smiles tell the story.</p>
+    </div>
+    <div class="ba-wrap">
+      <div class="ba-card reveal d1">
+        <div class="ba-img">
+          <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=700&q=85" alt="Before" loading="lazy"/>
+          <div class="ba-tag before">Before</div>
+        </div>
+        <div class="ba-body">
+          <h4>Full Smile Makeover</h4>
+          <p>Patient presented with discoloured, uneven teeth requiring a complete cosmetic restoration plan.</p>
+        </div>
+      </div>
+      <div class="ba-card reveal d2">
+        <div class="ba-img">
+          <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=700&q=85" alt="After" loading="lazy"/>
+          <div class="ba-tag after">After</div>
+        </div>
+        <div class="ba-body">
+          <h4>Radiant, Confident Smile</h4>
+          <p>Composite veneers and professional whitening. Patient reported a dramatic boost in confidence.</p>
+        </div>
+      </div>
+    </div>
+    <p class="ba-note reveal">*Results may vary. Book a consultation to discuss your personal treatment goals.</p>
+  </div>
+</section>
+  </div>
+  <footer >
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="nav-emblem">&#129463;</div>
+        <div class="nav-wordmark"><div class="nav-name" style="color:#fff">Mary Dental</div><div class="nav-sub">Windhoek Practice</div></div>
+      </div>
+      <p>Comfortable, convenient and personalised dental care in Wanaheda, Windhoek. General, cosmetic, restorative and emergency dentistry for all ages.</p>
+      <div class="foot-socs">
+        <a href="https://instagram.com/marydentalpractice" target="_blank" class="foot-soc">&#128247;</a>
+        <a href="https://wa.me/264816507508" target="_blank" class="foot-soc">&#128172;</a>
+        <a href="tel:+264816507508" class="foot-soc">&#128222;</a>
+        <a href="/cdn-cgi/l/email-protection#462b27343f22232832272a353233222f2906212b272f2a6825292b" class="foot-soc">&#9993;</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">General Dentistry</a></li>
+        <li><a href="#services">Cosmetic Dentistry</a></li>
+        <li><a href="#services">Restorative Dentistry</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+264816507508">+264 81 650 7508</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#513c30232835343f25303d22252435383e11363c30383d7f323e3c"><span class="__cf_email__" data-cfemail="a9c4c8dbd0cdccc7ddc8c5dadddccdc0c6e9cec4c8c0c587cac6c4">[email&#160;protected]</span></a></li>
+        <li><a href="https://instagram.com/marydentalpractice" target="_blank">@marydentalpractice</a></li>
+        <li><a>Erf 623 Zambezi Street</a></li>
+        <li><a>Wanaheda, Windhoek</a></li>
+        <li><a>Mon&ndash;Fri: 08:00&ndash;17:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">&copy; 2025 Mary Dental Practice. All Rights Reserved. Wanaheda, Windhoek, Namibia.</div>
+    <div class="foot-copy">Comfortable &bull; Convenient &bull; Personalised &#129463;</div>
+  </div>
+</footer>
+</div>
+
+<!-- ══ PAGE: REVIEWS ══ -->
+<div class="page" id="page-testimonials">
+  <div style="padding-top:72px">
+    <section id="testimonials">
+  <div class="tst-bg"></div>
+  <div class="tst-ov"></div>
+  <div class="tst-inner container">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow" style="justify-content:center;color:var(--sky)">Patient Testimonials</div>
+      <h2 class="stitle lt">What Our Patients <em>Say</em></h2>
+    </div>
+    <div class="tst-grid">
+      <div class="tst-card reveal d1">
+        <div class="tst-q">&ldquo;</div>
+        <div class="tst-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="tst-text">Mary Dental is exactly what it promises &mdash; comfortable, convenient and personal. The team genuinely cares. Best dental experience I have had in Windhoek. I will never go anywhere else.</p>
+        <div class="tst-author"><div class="tst-av">A</div><div><div class="tst-name">Anna Shikongo</div><div class="tst-tag">Regular Patient &bull; Windhoek</div></div></div>
+      </div>
+      <div class="tst-card reveal d2">
+        <div class="tst-q">&ldquo;</div>
+        <div class="tst-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="tst-text">My children actually look forward to dental visits now. Dr Mary is so patient and gentle. The standard has never dropped in all the years we have been coming here. Truly exceptional.</p>
+        <div class="tst-author"><div class="tst-av">P</div><div><div class="tst-name">Petrina Nghidinua</div><div class="tst-tag">Family Patient &bull; Wanaheda</div></div></div>
+      </div>
+      <div class="tst-card reveal d3">
+        <div class="tst-q">&ldquo;</div>
+        <div class="tst-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="tst-text">Dr Hendrick did my veneers and the transformation is beyond what I imagined. He took so much time to understand exactly what I wanted. The result is stunning. Worth every cent.</p>
+        <div class="tst-author"><div class="tst-av">N</div><div><div class="tst-name">Ndapewa Hamukoto</div><div class="tst-tag">Cosmetic Patient &bull; Windhoek</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+    <section id="cta">
+  <svg class="cta-tooth" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 10 C60 10,20 35,20 75 C20 95,28 112,30 130 C35 165,40 200,55 220 C62 230,72 232,80 225 C88 218,90 200,100 200 C110 200,112 218,120 225 C128 232,138 230,145 220 C160 200,165 165,170 130 C172 112,180 95,180 75 C180 35,140 10,100 10Z" stroke="white" stroke-width="3" fill="none"/>
+  </svg>
+  <div class="cta-eyebrow">Take the First Step</div>
+  <h2 class="reveal">Ready to transform<br/><em>your smile?</em></h2>
+  <p class="reveal d1">Join the Windhoek families who trust Mary Dental Practice with their most confident asset.</p>
+  <div class="cta-btns reveal d2">
+    <button class="cta-main" onclick="openM()">&#128197; Book Appointment</button>
+    <a href="tel:+264816507508" class="btn-outline-white">&#128222; Call Now</a>
+  </div>
+</section>
+  </div>
+  <footer >
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="nav-emblem">&#129463;</div>
+        <div class="nav-wordmark"><div class="nav-name" style="color:#fff">Mary Dental</div><div class="nav-sub">Windhoek Practice</div></div>
+      </div>
+      <p>Comfortable, convenient and personalised dental care in Wanaheda, Windhoek. General, cosmetic, restorative and emergency dentistry for all ages.</p>
+      <div class="foot-socs">
+        <a href="https://instagram.com/marydentalpractice" target="_blank" class="foot-soc">&#128247;</a>
+        <a href="https://wa.me/264816507508" target="_blank" class="foot-soc">&#128172;</a>
+        <a href="tel:+264816507508" class="foot-soc">&#128222;</a>
+        <a href="/cdn-cgi/l/email-protection#432e22313a27262d37222f303736272a2c03242e222a2f6d202c2e" class="foot-soc">&#9993;</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">General Dentistry</a></li>
+        <li><a href="#services">Cosmetic Dentistry</a></li>
+        <li><a href="#services">Restorative Dentistry</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+264816507508">+264 81 650 7508</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#234e42515a47464d57424f505756474a4c63444e424a4f0d404c4e"><span class="__cf_email__" data-cfemail="c1aca0b3b8a5a4afb5a0adb2b5b4a5a8ae81a6aca0a8adefa2aeac">[email&#160;protected]</span></a></li>
+        <li><a href="https://instagram.com/marydentalpractice" target="_blank">@marydentalpractice</a></li>
+        <li><a>Erf 623 Zambezi Street</a></li>
+        <li><a>Wanaheda, Windhoek</a></li>
+        <li><a>Mon&ndash;Fri: 08:00&ndash;17:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">&copy; 2025 Mary Dental Practice. All Rights Reserved. Wanaheda, Windhoek, Namibia.</div>
+    <div class="foot-copy">Comfortable &bull; Convenient &bull; Personalised &#129463;</div>
+  </div>
+</footer>
+</div>
+
+<!-- ══ PAGE: CONTACT ══ -->
+<div class="page" id="page-contact">
+  <div style="padding-top:72px">
+    <!-- CONTACT HERO -->
+    <div style="
+      position:relative;height:340px;
+      background:linear-gradient(rgba(10,31,53,.82),rgba(10,31,53,.72)),
+        url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1600&q=85') center/cover no-repeat;
+      display:flex;align-items:center;padding:0 6%;overflow:hidden;
+    ">
+      <div style="position:relative;z-index:2;max-width:580px">
+        <div class="eyebrow lt" style="margin-bottom:.8rem">Get in Touch</div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:700;color:#fff;line-height:1.08;letter-spacing:-.025em">Book an <em style="color:var(--ice2)">Appointment</em></h1>
+        <p style="font-size:.9rem;font-weight:300;color:rgba(255,255,255,.6);line-height:1.85;margin-top:.7rem">Fill in the form or call us directly. We confirm within one business day.</p>
+      </div>
+    </div>
+
+    <!-- CONTACT BODY -->
+    <section style="padding:90px 5%;background:var(--off)">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:3.5rem;align-items:start">
+
+          <!-- LEFT: INFO -->
+          <div class="reveal">
+            <div class="eyebrow">Contact Details</div>
+            <h2 class="stitle" style="margin-bottom:.8rem">We&rsquo;re Here<br/>for Your <em>Smile</em></h2>
+            <p class="sbody" style="margin-bottom:2rem">Reach us by phone, email or WhatsApp. Emergency patients are always seen the same day &mdash; do not wait.</p>
+
+            <div style="background:rgba(255,255,255,.7);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.9);border-radius:16px;padding:2rem;box-shadow:0 4px 32px rgba(10,31,53,.07)">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:1.2rem">Mary Dental &mdash; Windhoek</div>
+              <div style="list-style:none;display:flex;flex-direction:column;gap:.8rem">
+                <div style="display:flex;align-items:center;gap:.75rem;font-size:.83rem;color:var(--text)">
+                  <div style="width:34px;height:34px;background:rgba(91,184,212,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0">&#128222;</div>
+                  <a href="tel:+264816507508" style="font-weight:600;color:var(--sky3);transition:color .3s">+264 81 650 7508</a>
+                </div>
+                <div style="display:flex;align-items:center;gap:.75rem;font-size:.83rem;color:var(--text)">
+                  <div style="width:34px;height:34px;background:rgba(91,184,212,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0">&#9993;</div>
+                  <a href="/cdn-cgi/l/email-protection#305d51424954555e44515c43444554595f70575d51595c1e535f5d" style="font-weight:600;color:var(--sky3)"><span class="__cf_email__" data-cfemail="274a46555e43424953464b545352434e4867404a464e4b0944484a">[email&#160;protected]</span></a>
+                </div>
+                <div style="display:flex;align-items:center;gap:.75rem;font-size:.83rem;color:var(--text)">
+                  <div style="width:34px;height:34px;background:rgba(91,184,212,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0">&#128172;</div>
+                  <a href="https://wa.me/264816507508" target="_blank" style="font-weight:600;color:var(--sky3)">WhatsApp Us</a>
+                </div>
+                <div style="height:1px;background:rgba(91,184,212,.15);margin:.2rem 0"></div>
+                <div style="display:flex;align-items:center;gap:.75rem;font-size:.83rem;color:var(--text)">
+                  <div style="width:34px;height:34px;background:rgba(91,184,212,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0">&#128205;</div>
+                  <span>Erf 623 Zambezi Street, Wanaheda, Windhoek</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.75rem;font-size:.83rem;color:var(--text)">
+                  <div style="width:34px;height:34px;background:rgba(91,184,212,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0">&#128336;</div>
+                  <span>Mon&ndash;Thu 08:00&ndash;17:00 &bull; Fri 08:00&ndash;16:00</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.75rem;font-size:.83rem;color:var(--text)">
+                  <div style="width:34px;height:34px;background:rgba(91,184,212,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0">&#128680;</div>
+                  <span style="color:#d94040;font-weight:500">Emergency? Call us immediately &mdash; same day.</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:.75rem;font-size:.83rem;color:var(--text)">
+                  <div style="width:34px;height:34px;background:rgba(91,184,212,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0">&#128247;</div>
+                  <a href="https://instagram.com/marydentalpractice" target="_blank" style="font-weight:600;color:var(--sky3)">@marydentalpractice</a>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:.85rem;flex-wrap:wrap;margin-top:1.4rem">
+              <a href="tel:+264816507508" class="btn-sky">&#128222; Call Now</a>
+              <a href="https://wa.me/264816507508" target="_blank" class="btn-glass">&#128172; WhatsApp</a>
+            </div>
+          </div>
+
+          <!-- RIGHT: BOOKING FORM -->
+          <div class="reveal" style="background:rgba(255,255,255,.75);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:20px;padding:2rem;box-shadow:0 4px 32px rgba(10,31,53,.08)" id="inPageForm">
+            <div id="inPgFrm">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:1.3rem">Request an Appointment</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem">
+                <div class="mfg"><label class="mfl">First Name *</label><input class="mfi" id="p1" placeholder="First name"/></div>
+                <div class="mfg"><label class="mfl">Last Name *</label><input class="mfi" id="p2" placeholder="Last name"/></div>
+              </div>
+              <div class="mfg"><label class="mfl">Phone Number *</label><input class="mfi" id="p3" type="tel" placeholder="+264 81 XXX XXXX"/></div>
+              <div class="mfg"><label class="mfl">Email Address</label><input class="mfi" id="p4" type="email" placeholder="optional"/></div>
+              <div class="mfg"><label class="mfl">Service *</label>
+                <select class="mfs" id="p5">
+                  <option value="">Select a service</option>
+                  <option>General Check-up &amp; Cleaning</option>
+                  <option>Cosmetic Dentistry</option>
+                  <option>Restorative Dentistry</option>
+                  <option>Root Canal Treatment</option>
+                  <option>Emergency Dental Care</option>
+                  <option>Teeth Whitening</option>
+                  <option>Not sure &ndash; need consultation</option>
+                </select>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem">
+                <div class="mfg"><label class="mfl">Preferred Date *</label><input class="mfi" id="p6" type="date"/></div>
+                <div class="mfg"><label class="mfl">Preferred Time</label>
+                  <select class="mfs" id="p7">
+                    <option value="">Any time</option>
+                    <option>08:00 &ndash; 09:30</option>
+                    <option>09:30 &ndash; 11:00</option>
+                    <option>11:00 &ndash; 13:00</option>
+                    <option>13:00 &ndash; 15:00</option>
+                    <option>15:00 &ndash; 17:00</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mfg"><label class="mfl">Notes</label><textarea class="mfi" id="p8" style="min-height:70px;resize:none" placeholder="Any concerns or information we should know..."></textarea></div>
+              <button class="mf-sub" onclick="subPage()">Confirm Appointment Request &rarr;</button>
+              <p class="mf-note">We will call to confirm within 1 business day.</p>
+            </div>
+            <div id="inPgConf" style="display:none;text-align:center;padding:2rem 1rem">
+              <div style="width:64px;height:64px;background:rgba(91,184,212,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1rem">&#9989;</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-bottom:.4rem">Request Received!</div>
+              <p style="font-size:.84rem;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:1.2rem">Thank you, <strong id="pc1"></strong>. We will call you on <strong id="pc2"></strong> to confirm your appointment.</p>
+              <div style="background:var(--off);border-radius:8px;padding:.9rem 1.1rem;text-align:left;margin-bottom:1.2rem">
+                <div style="display:flex;justify-content:space-between;font-size:.78rem;padding:.26rem 0;border-bottom:1px solid rgba(91,184,212,.1)"><span style="color:var(--muted);font-weight:300">Service</span><span style="color:var(--navy);font-weight:600" id="pc3"></span></div>
+                <div style="display:flex;justify-content:space-between;font-size:.78rem;padding:.26rem 0;border-bottom:1px solid rgba(91,184,212,.1)"><span style="color:var(--muted);font-weight:300">Date</span><span style="color:var(--navy);font-weight:600" id="pc4"></span></div>
+                <div style="display:flex;justify-content:space-between;font-size:.78rem;padding:.26rem 0"><span style="color:var(--muted);font-weight:300">Practice</span><span style="color:var(--navy);font-weight:600">Erf 623 Zambezi St, Wanaheda</span></div>
+              </div>
+              <button class="mf-sub" onclick="resetPage()">Book Another Appointment</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer >
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div class="nav-emblem">&#129463;</div>
+        <div class="nav-wordmark"><div class="nav-name" style="color:#fff">Mary Dental</div><div class="nav-sub">Windhoek Practice</div></div>
+      </div>
+      <p>Comfortable, convenient and personalised dental care in Wanaheda, Windhoek. General, cosmetic, restorative and emergency dentistry for all ages.</p>
+      <div class="foot-socs">
+        <a href="https://instagram.com/marydentalpractice" target="_blank" class="foot-soc">&#128247;</a>
+        <a href="https://wa.me/264816507508" target="_blank" class="foot-soc">&#128172;</a>
+        <a href="tel:+264816507508" class="foot-soc">&#128222;</a>
+        <a href="/cdn-cgi/l/email-protection#462b27343f22232832272a353233222f2906212b272f2a6825292b" class="foot-soc">&#9993;</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">General Dentistry</a></li>
+        <li><a href="#services">Cosmetic Dentistry</a></li>
+        <li><a href="#services">Restorative Dentistry</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+264816507508">+264 81 650 7508</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#c8a5a9bab1acada6bca9a4bbbcbdaca1a788afa5a9a1a4e6aba7a5"><span class="__cf_email__" data-cfemail="bbd6dac9c2dfded5cfdad7c8cfcedfd2d4fbdcd6dad2d795d8d4d6">[email&#160;protected]</span></a></li>
+        <li><a href="https://instagram.com/marydentalpractice" target="_blank">@marydentalpractice</a></li>
+        <li><a>Erf 623 Zambezi Street</a></li>
+        <li><a>Wanaheda, Windhoek</a></li>
+        <li><a>Mon&ndash;Fri: 08:00&ndash;17:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">&copy; 2025 Mary Dental Practice. All Rights Reserved. Wanaheda, Windhoek, Namibia.</div>
+    <div class="foot-copy">Comfortable &bull; Convenient &bull; Personalised &#129463;</div>
+  </div>
+</footer>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── PAGE ROUTER ── */
+const PAGES = ['home','about','team','services','results','testimonials','contact'];
+let cur = 'home';
+
+function go(id) {
+  if (!PAGES.includes(id)) return;
+  // Hide all
+  PAGES.forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.classList.remove('active');
+  });
+  // Show target
+  const to = document.getElementById('page-' + id);
+  if (!to) return;
+  to.scrollTop = 0;
+  void to.offsetWidth; // force reflow for animation replay
+  to.classList.add('active');
+  // Update nav
+  PAGES.forEach(p => {
+    const nl = document.getElementById('nl-' + p);
+    if (nl) nl.classList.toggle('cur', p === id);
+  });
+  cur = id;
+  window.scrollTo(0, 0);
+  // Trigger reveals
+  setTimeout(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+      });
+    }, {threshold: 0.07});
+    to.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => {
+      el.classList.remove('vis');
+      obs.observe(el);
+    });
+  }, 80);
+}
+
+/* ── NAV SCROLL ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), {passive:true});
+nav.classList.add('scrolled');
+
+/* ── MOBILE NAV ── */
+function openMob(){document.getElementById('mobNav').classList.add('open');document.body.style.overflow='hidden';}
+function closeMob(){document.getElementById('mobNav').classList.remove('open');document.body.style.overflow='';}
+
+/* ── HERO SLIDER ── */
+let si = 0;
+function initHeroSlider() {
+  const slides = document.querySelectorAll('.hs');
+  const dots   = document.querySelectorAll('.h-dot');
+  if (!slides.length) return;
+  window.gSlide = function(i) {
+    slides[si].classList.remove('on'); dots[si].classList.remove('on');
+    si = i; slides[si].classList.add('on'); dots[si].classList.add('on');
+  };
+  setInterval(() => window.gSlide((si + 1) % slides.length), 5000);
+}
+initHeroSlider();
+
+/* ── PARALLAX ── */
+window.addEventListener('scroll', () => {
+  const parBg = document.querySelector('.par-bg');
+  if (!parBg) return;
+  const s = document.getElementById('parallax');
+  if (!s) return;
+  const r = s.getBoundingClientRect();
+  if (r.bottom > 0 && r.top < window.innerHeight)
+    parBg.style.transform = `translateY(${r.top * 0.3}px)`;
+}, {passive:true});
+
+/* ── INITIAL REVEALS ── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); revObs.unobserve(e.target); } });
+}, {threshold: 0.07});
+document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => revObs.observe(el));
+
+/* ── MODAL ── */
+function openM() {
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const d = document.getElementById('m5');
+  if (d) d.min = new Date().toISOString().split('T')[0];
+}
+function closeM() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeM();
+});
+function subM() {
+  const v = id => document.getElementById(id).value.trim();
+  if (!v('m1')) { alert('Please enter your first name.'); return; }
+  if (!v('m2')) { alert('Please enter your last name.'); return; }
+  if (!v('m3')) { alert('Please enter your phone number.'); return; }
+  if (!document.getElementById('m4').value) { alert('Please select a service.'); return; }
+  if (!v('m5')) { alert('Please select a preferred date.'); return; }
+  const fd = new Date(v('m5')+'T00:00:00').toLocaleDateString('en-NA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('mc1').textContent = v('m1')+' '+v('m2');
+  document.getElementById('mc2').textContent = v('m3');
+  document.getElementById('mc3').textContent = document.getElementById('m4').value;
+  document.getElementById('mc4').textContent = fd;
+  document.getElementById('mFrm').style.display = 'none';
+  document.getElementById('mConf').style.display = 'block';
+}
+function resetM() {
+  document.getElementById('mFrm').style.display = 'block';
+  document.getElementById('mConf').style.display = 'none';
+  ['m1','m2','m3'].forEach(id => document.getElementById(id).value = '');
+  ['m4','m5']
+  .forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+}
+</script>
+</body>
+</html>
